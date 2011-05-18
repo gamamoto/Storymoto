@@ -1,0 +1,1 @@
+Storymoto game engine full sources. Visit http://gamamoto.com/storymoto-the-javascript-game-engine/
