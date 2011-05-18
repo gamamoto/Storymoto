@@ -1,0 +1,514 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <title>Storymoto game story engine</title>
+  <link rel="Shortcut Icon" type="image/ico" href="../favicon.ico">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"></script>
+  <script src="js/jquery.timers.js"></script>
+  <script type="text/javascript" src="js/jquery.JST.js"></script>
+</head>
+<body>
+
+<style type="text/css">
+  BODY, TBODY {
+    font-family: arial, serif;
+    font-size: 13px;
+    background-color: #fff;
+  }
+
+  h1 {
+    color: #6FB703
+  }
+
+  h2 {
+    font-size: 20px;
+    padding: 0 0 10px 0;
+    margin: 0
+  }
+
+  h3 {
+    font-size: 16px;
+    padding: 0 0 10px 0;
+    margin: 0
+  }
+
+  hr {
+    border: 0;
+    border-top: 1px dotted #999
+  }
+
+  .navigation td {
+    padding: 5px
+  }
+
+  #dialogViewerPlace {
+    padding: 4px;
+    margin: 4px;
+  }
+
+  #log, #playerStatus, #menu {
+    height: 800px;
+    overflow: auto;
+    width: 95%;
+    padding: 4px;
+    margin: 4px;
+  }
+
+  #log {
+    height: 800px;
+  }
+
+  #menu {
+    height: 100px;
+  }
+
+  .button {
+    font-weight: bolder;
+    cursor: pointer;
+    color: #fff;
+    text-decoration: none;
+    background-color: #000;
+    padding: 5px 10px;
+    margin: 5px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+  }
+
+  .button:hover {
+    text-decoration: none;
+    color: #99FE00
+  }
+
+  .link {
+    cursor: pointer;
+    text-decoration: none;
+    padding: 2px 5px;
+    font-size: 14px;
+    color: #000
+  }
+
+  .link:hover {
+    text-decoration: underline;
+    color: #6FB703
+  }
+
+  .link.selected {
+    text-decoration: none;
+    font-weight: bold;
+    background-color: #000;
+    color: #fff;
+    display: inline-block
+  }
+
+  .moving {
+    font-size: 11px;
+    color: gray;
+  }
+
+  .missingMenuObject {
+    color: orange;
+    font-style: italic;
+  }
+
+  .missing, .missingDialog {
+    color: red;
+    font-style: italic;
+  }
+
+  .systemSays {
+    background-color: yellow;
+    font-size: 14px;
+    padding: 5px
+  }
+
+  .playerThinks {
+    background-color: red;
+    font-size: 14px;
+    font-family: "Courier New", Courier, monospace;
+    padding: 5px
+  }
+
+  .npcSays {
+    background-color: white;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 14px;
+    padding: 5px
+  }
+
+  .npcSays ul, .playerChoices ul {
+    padding: 0 0 0 25px;
+    margin: 0
+  }
+
+  .npcSays ul li, .playerChoices ul li {
+    list-style-type: square;
+    padding: 0 0 3px 5px;
+    margin: 0
+  }
+
+  .playerChoices {
+    background-color: #99FE00;
+    font-size: 14px;
+    padding: 5px
+  }
+
+  span.inputField {
+    margin: 5px;
+    display: block
+  }
+
+  span.menuVoice {
+    background-color: white;
+    padding: 5px 10px;
+    margin: 5px;
+    float: left
+  }
+
+  #shortMenu .menuVoice {
+    border: none;
+    background-color: transparent;
+    padding: 0 5px;
+    margin: 0;
+
+  }
+
+  .detailTitle {
+    border-top: 1px dotted gray;
+    margin: 3px 0 3px 0;
+    font-weight: bold;
+  }
+
+</style>
+
+<table width="900" border="0" align="center" cellspacing="10">
+  <tr>
+    <td colspan="1" align="center"><img src="storymoto.jpg"></td>
+    <td align="center">
+      <a target="_blank" class="link" href="http://twitter.com/intent/tweet?text=Using%20Storymoto%20the%20JavaScript%20game%20story%20engine%20http%3A%2F%2Fbit.ly%2Fstorymoto%20%23storymoto" title="">tweet this</a>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" valign="top">
+
+      <table width="100%" class="navigation">
+        <tr>
+          <td valign="top" width="33%" style="background-color:#D4D0C9">
+            <h2>Scenes</h2>
+
+            <div id="sceneListPlace"></div>
+          </td>
+          <td valign="top" width="33%" style="background-color:#E5DFD5">
+            <h2 id="dialogTitle">Dialogs</h2>
+
+            <div id="dialogListPlace"></div>
+          </td>
+          <td valign="top" width="33%" style="background-color:#EDEAE6">
+            <div id="dialogViewerPlace"></div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" align="right" height="40"><a class="button" href="javascript:dumpData();">Save player's
+            data</a><a class="button" href="javascript:reloadData();">Load player's data</a><a class="button"
+                                                                                               href="javascript:resetData()">Reload
+            game files</a></td>
+        </tr>
+      </table>
+
+
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <h1>Current dialog: "<span id="currentDialog"></span>"
+        <small> - Scene: "<span id="currentScene"></span>" - Frame: <span id="currentFrame"></span></small>
+      </h1>
+    </td>
+  </tr>
+  <tr>
+    <td width="66%" valign="top" style="background-color: #EDEAE6;padding:5px">
+
+
+      <h2>Game menu</h2>
+
+      <div id="menu"></div>
+    </td>
+    <td width="33%" rowspan="2" valign="top" style="background-color: #E6F5B9;padding:5px">
+      <h2>Player status</h2>
+
+
+      <div id="playerStatus"></div>
+    </td>
+  </tr>
+  <tr>
+    <td width="66%" valign="top" style="background-color: #EDEAE6;padding:5px">
+      <span onclick="$('#log').empty()" class="button" style="float:right">clear log</span>
+
+      <h2>Game log</h2>
+
+      <div id="log"></div>
+    </td>
+
+  </tr>
+</table>
+<div style="height:100px;" id="stage"></div>
+<!-- ----------------------------------------- templates start --------------------------------------------- -->
+<div id="templates">
+  <div class="__template__" type="sceneRow"><!--
+  <div class="link" sceneId="##id##" onclick="selectScene($(this));">##id##</div>
+  --></div>
+
+  <div class="__template__" type="dialogRow"><!--
+  <div class="link" dialogId="##id##" onclick="showDialog($(this));">##id##</div>
+  --></div>
+
+  <div class="__template__" type="dialogViewer"><!--
+  <div id="dialogViewer">
+    <h2>(#=id#)</h2>
+
+    <div class="detailTitle">links:</div>
+    <div style="width:100%;" id="links"></div>
+    <div class="detailTitle">menu:</div>
+    <div style="width:290px;" id="shortMenu"></div>
+    <br style="clear:left">
+
+    <div style="text-align:right;margin-top:15px; border-top:1px dotted gray; line-height:20px">
+      <a class="link" href="javascript:A.goto('(#=id#)');"><b> → move player to (#=id#)</b></a>
+    </div>
+
+  </div>
+  --></div>
+
+  <div class="__template__" type="playerViewer"><!--
+  <div class="playerViewer">
+    <h3>Player: (#=player.name#) &nbsp;&nbsp;
+      <small>(id: (#=player.id#))</small>
+    </h3>
+  </div>
+  --></div>
+
+  <div class="__template__" type="npcViewer"><!--
+  <div class="npcViewer">
+    <h3>NPC: (#=name#)&nbsp;&nbsp;
+      <small>(id: (#=id#))</small>
+    </h3>
+  </div>
+  --></div>
+</div>
+
+
+<script type="text/javascript">
+  <!-- ---------------------------------------------------------------------------------  DECORATORS ------------------------------------------------------------------------- -->
+  $.JST.loadDecorator("playerViewer", function (strip, json) {
+    var jsonData = json.player;
+    console.debug(jsonData)
+    for (var i in jsonData) {
+      var fld = $("<span>");
+      fld.addClass("inputField");
+      if (i == "id" || i == "name" || i == "tokenDialogId")
+        continue;
+      else if (i == "events")
+        fld.append("<b>" + i + "</b>&nbsp;" + JSON.stringify(jsonData[i]));
+      else {
+        var inp = $("<input type='text' size='5'>");
+        inp.val(jsonData[i]).attr("prop", i).change(function() {
+          G.player[$(this).attr("prop")] = $(this).val();
+        });
+        fld.append("<b>" + i + "</b>&nbsp;").append(inp);
+      }
+      strip.append(fld);
+    }
+    strip.append("<hr>");
+  });
+
+  $.JST.loadDecorator("npcViewer", function (strip, jsonData) {
+    for (var i in jsonData) {
+      var fld = $("<span>");
+      fld.addClass("inputField");
+      if (i == "id" || i == "name" || i == "tokenDialog")
+        continue;
+      else if (i == "events")
+        fld.append("<b>" + i + "</b>&nbsp;" + JSON.stringify(jsonData[i]));
+      else {
+        var inp = $("<input type='text' size='5'>");
+        inp.val(jsonData[i]).attr("prop", i).change(function() {
+          G.player[$(this).attr("prop")] = $(this).val();
+        });
+        fld.append("<b>" + i + "</b>&nbsp;").append(inp);
+      }
+      strip.append(fld);
+    }
+    strip.append("<hr>");
+  });
+
+  $.JST.loadDecorator("dialogViewer", function (box, dialog) {
+
+    var script = stringify(dialog);
+    //console.debug(script+"");
+
+    var links = script.match(/G\.dialogs\.\w*/ig);
+    var res = "";
+    var ll = box.find("#links");
+    var visited = [];
+    for (var i in links) {
+      if (visited.indexOf(links[i]) < 0) {
+        visited.push(links[i]);
+        var linkDialog = eval(links[i]);
+        var l = $("<span>");
+        if (typeof(linkDialog) != "undefined") {
+          l.addClass("link").attr({"dialogId":linkDialog.id}).click(function() {
+            synchDialog($(this).attr("dialogId"));
+          }).html(linkDialog.id + "<br>");
+        } else {
+          l.addClass("missing").html(links[i] + "<br>");
+        }
+        ll.append(l);
+      }
+    }
+
+    //append menu
+    P.emulatorDrawMenu(box.find("#shortMenu"), dialog, synchDialog);
+  });
+
+</script>
+
+
+<!-- ----------------------------------------- templates end --------------------------------------------- -->
+
+
+<script type="text/javascript" src="actions.js"></script>
+<script type="text/javascript" src="paintersEmulator.js"></script>
+<script type="text/javascript" src="engine.js"></script>
+<script type="text/javascript" src="model.js"></script>
+<script type="text/javascript" src="gameInterface.js"></script>
+
+<script type="text/javascript">
+
+  var development = true;
+
+  $(function() {
+    //load templates and remove containers
+    $("#templates").loadTemplates().remove();
+    reloadAll();
+  });
+
+
+  function reloadAll() {
+    /*
+     Here you tell on which game files to run the emulator
+     */
+    loadGameFiles("game_test", "EN", development ? new Date().getTime() : "", function() {
+      //loadGameFiles("game_adsLife","EN",development?new Date().getTime():"",function(){
+      refreshSceneList();
+
+      //go to first page
+      A.goto(G.player.tokenDialogId);
+    });
+  }
+
+
+  <!-- ---------------------------------------------------------------  SCENE EDITOR -------------------------------------------------------------- -->
+
+  function refreshSceneList() {
+    var slp = $("#sceneListPlace");
+    slp.empty();
+    for (var i in G.scenes) {
+      slp.append($.JST.createFromTemplate(G.scenes[i], "sceneRow"));
+    }
+  }
+
+  function selectScene(el) {
+    $("#sceneListPlace .selected").removeClass("selected");
+    var inEditScene = G.scenes[el.attr("sceneId")];
+
+    if (inEditScene) {
+      el.addClass("selected");
+      refreshDialogList(inEditScene);
+    } else {
+      $("#dialogEditorPlace,#dialogListPlace").empty();
+    }
+  }
+
+  <!-- ---------------------------------------------------------------  DIALOG EDITOR -------------------------------------------------------------- -->
+
+  function synchDialog(dialogId) {
+    var dialog = G.dialogs[dialogId];
+    selectScene($("#sceneListPlace [sceneId=" + dialog.scene.id + "]"));
+    showDialog($("#dialogListPlace [dialogId=" + dialogId + "]"));
+
+  }
+
+
+  function refreshDialogList(scene) {
+    var slp = $("#dialogListPlace");
+    slp.empty();
+    for (var i in G.dialogs) {
+      var dialog = G.dialogs[i];
+      if (dialog.scene == scene)
+        slp.append($.JST.createFromTemplate(dialog, "dialogRow"));
+    }
+  }
+
+  function showDialog(el) {
+    $("#dialogListPlace .selected").removeClass("selected");
+    var slp = $("#dialogViewerPlace");
+    el.addClass("selected");
+    slp.empty();
+    slp.append($.JST.createFromTemplate(G.dialogs[el.attr("dialogId")], "dialogViewer"));
+  }
+
+
+  <!-- ---------------------------------------- GAME PLAY ------------------------------------------- -->
+
+
+  function dumpData() {
+    alert("This is the player status must be saved somewhere:\n" + JSON.stringify(G.player) + "\n" + JSON.stringify(G.npcs));
+    //E.saveStatus(function(){console.debug("status saved")});
+  }
+
+  function reloadData() {
+    alert("To be implemented!\nJust restore data created with dump.");
+    //E.loadStatus(function(){A.goto(G.player.tokenDialogId);});
+  }
+
+  function resetData() {
+    $("#log,#menu,#playerStatus,#dialogEditorPlace,#dialogListPlace").empty();
+    reloadAll();
+  }
+
+
+  // implement JSON.stringify serialization
+  function stringify(obj) {
+    var t = typeof (obj);
+    if (t != "object" || obj === null) {
+      // simple data type
+      if (t == "string") obj = '"' + obj + '"';
+      return String(obj);
+    } else {
+      // recurse array or object
+      var n, v, json = [], arr = (obj && obj.constructor == Array);
+      for (n in obj) {
+        v = obj[n];
+        t = typeof(v);
+        if (t == "string") v = '"' + v + '"';
+        else if (t == "object" && v !== null) v = JSON.stringify(v);
+        json.push((arr ? "" : '"' + n + '":') + String(v));
+      }
+      return (arr ? "[" : "{") + String(json) + (arr ? "]" : "}");
+    }
+  }
+
+
+  // implement JSON.parse de-serialization
+  function parse(str) {
+    if (str === "") str = '""';
+    eval("var p=" + str + ";");
+    return p;
+  }
+
+</script>
+
+</body>
+</html>
+

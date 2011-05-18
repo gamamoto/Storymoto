@@ -1,0 +1,74 @@
+#menu{
+  position:absolute;
+  height:40px;
+  width:100%;
+  bottom:0;
+  background-color:black;
+}
+
+ .button{
+   font-weight:bolder;
+   cursor:pointer;
+ }
+ .link{
+   cursor:pointer;
+   text-decoration:underline;
+ }
+
+ span.menuVoice{
+   background-color:white;
+   border:1px solid gray;
+   padding:5px;
+   margin:5px;
+ }
+
+.npcSays{
+  position:absolute;
+  height:300px;
+  width:300px;
+  top:25%;
+  background-color:orange;
+  border:3px solid white;
+  padding:3px;
+}
+
+.systemSays{
+  position:absolute;
+  height:300px;
+  width:300px;
+  top:25%;
+  background-color:orange;
+  border:3px solid white;
+  padding:3px;
+}
+
+
+.playerChoices{
+  position:absolute;
+  width:400px;
+  height:300px;
+  top:25%;
+  background-color:lightpink;
+  border:3px solid white;
+  padding:3px;
+
+}
+.animation{
+  position:absolute;
+  width:200px;
+  height:100px;
+  top:45%;
+  background-color:yellow;
+  border:3px solid red;
+  padding:3px;
+
+}
+
+.stage {
+    width:960px;
+    height:640px;
+    overflow:hidden;
+    background-color:#fff;
+    position:relative;
+
+}
