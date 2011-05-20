@@ -101,19 +101,19 @@ function Engine() {
         A.hideNpc();
       }
 
-      if (cd && cd.id != td.id) console.debug("leaving dialog: " + (cd ? cd.id : "empty"));
+      if (cd && cd.id != td.id) log("leaving dialog: " + (cd ? cd.id : "empty"));
       leaveDialog(function() {
 
-        if (cd && cd.scene.id != td.scene.id) console.debug("leaving scene: " + (cd ? cd.scene.id : "empty"));
+        if (cd && cd.scene.id != td.scene.id) log("leaving scene: " + (cd ? cd.scene.id : "empty"));
         leaveScene(function() {
 
-          if (beforeEnterScene != fake)console.debug("before entering scene: " + td.scene.id);
+          if (beforeEnterScene != fake)log("before entering scene: " + td.scene.id);
           beforeEnterScene(function() {
 
-            if (!cd || cd.scene.id != td.scene.id) console.debug("entering scene: " + td.scene.id);
+            if (!cd || cd.scene.id != td.scene.id) log("entering scene: " + td.scene.id);
             enterScene(function() {
 
-              if (!cd || cd.id != td.id) console.debug("entering dialog: " + td.id + " frame " + (td.frame ? td.frame : 0));
+              if (!cd || cd.id != td.id) log("entering dialog: " + td.id + " frame " + (td.frame ? td.frame : 0));
               $("#nav_compass").html(td.id);
 
               //show npc if any defined in the dialog
@@ -131,7 +131,7 @@ function Engine() {
 
                 //execute action for new dialog
                 if (typeof(td.action) == "function") {
-                  console.debug("executing action for dialog: " + td.id, td.action);
+                  log("executing action for dialog: " + td.id, td.action);
                   td.action();
                 }
 
@@ -228,10 +228,9 @@ function Engine() {
           G.player.karma = response.karma;
 
         } else {
-          console.debug("Setting up new user game.");
+          log("Setting up new user game.");
         }
         if (typeof(callback) == "function") {
-          console.debug("calling back");
           callback(response);
         }
       }
