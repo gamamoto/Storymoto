@@ -302,7 +302,6 @@
   <!-- ---------------------------------------------------------------------------------  DECORATORS ------------------------------------------------------------------------- -->
   $.JST.loadDecorator("playerViewer", function (strip, json) {
     var jsonData = json.player;
-    console.debug(jsonData)
     for (var i in jsonData) {
       var fld = $("<span>");
       fld.addClass("inputField");

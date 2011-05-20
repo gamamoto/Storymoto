@@ -211,7 +211,6 @@ G.dialogs.clubPickDrink = {
         A.goto(G.dialogs.clubDrinkDrink);
       },{cost:10,alcohol:5}],
       ["DRINK3",function(data) {
-        console.debug("pay for "+data);
         G.player.money -= data.cost;
         G.player.alcohol += data.alcohol;
         A.goto(G.dialogs.clubDrinkDrink);

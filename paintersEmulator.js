@@ -53,7 +53,6 @@ function Painters() {
    *                  ["choice 2",function(data){...}],dataValue] //you can put the goto in the function
    */
   this.showPlayerChoices = function(choices) {
-    console.debug("showPlayerChoices", choices);
     var extdiv = $("<div>").addClass("playerChoices");
     extdiv.append("Choose:");
     var div=$("<ul>");
@@ -147,7 +146,6 @@ function Painters() {
 
   this.emulatorDrawMenu = function(div,currentDialog,gotoFunction) {
     var totMenu = E.computeMenu(currentDialog);
-    console.debug("draw menu", totMenu);
 
     div.empty();
     for (var i in totMenu) {
@@ -252,7 +250,6 @@ function Painters() {
     if (typeof(el)=="string"){//wraps into div
       jqEl=$("<div>").html(el);
     }
-    console.debug("log",jqEl);
     jqEl.hide();
     $("#log").prepend("<hr>").prepend(jqEl);
     jqEl.fadeIn(1500,callback);

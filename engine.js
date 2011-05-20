@@ -7,8 +7,6 @@ function Engine() {
     var cd = G.currentDialog;
     var td = G.tokenDialog;
 
-    console.debug("executeGameStep", cd, td);
-
     if (cd != td) {
       var fake = function(callback) {
         if (typeof(callback) == "function") {

@@ -183,7 +183,6 @@ function Actions() {
 
     function shouldExecuteCallback(callback) {
       if (remaining <= 0) {
-        console.debug("audioFadeOut callback", callback);
         if (callback)
           callback();
       }
@@ -231,7 +230,6 @@ function Actions() {
 
     function shouldExecuteCallback(callback) {
       if (remaining <= 0) {
-        console.debug("audioFadeIn callback", callback);
         if (callback)
           callback();
       }
@@ -313,8 +311,6 @@ function Actions() {
 
   this.changeTrack=function(el, callback){
     var audioTag=$(el);
-
-    console.debug(el.audioIDX, el.audioList[el.audioIDX][2]);
 
     if(el.audioIDX>=el.audioList.length){
       el.audioIDX=0;
