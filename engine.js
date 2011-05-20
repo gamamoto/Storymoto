@@ -131,7 +131,7 @@ function Engine() {
 
                 //execute action for new dialog
                 if (typeof(td.action) == "function") {
-                  log("executing action for dialog: " + td.id, td.action);
+                  log("executing action for dialog: " + td.id);
                   td.action();
                 }
 
