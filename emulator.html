@@ -398,9 +398,7 @@
      Here you tell on which game files to run the emulator
      */
     loadGameFiles("game_test", "EN", development ? new Date().getTime() : "", function() {
-      //loadGameFiles("game_adsLife","EN",development?new Date().getTime():"",function(){
       refreshSceneList();
-
       //go to first page
       A.goto(G.player.tokenDialogId);
     });

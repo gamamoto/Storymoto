@@ -26,9 +26,9 @@ function Actions() {
 
   // --------------------------------------------------------- NPC Says  ---------------------------------------------------------
   this.npcSays = function(npc, sentence, callback, modal) {
-    //console.debug("executing NPC says: "+sentence,callback);
     P.npcSays(npc, sentence, callback, modal);
   };
+  
   this.hideNpcSays = function () {
     P.hideNpcSays();
   };

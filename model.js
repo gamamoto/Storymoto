@@ -31,10 +31,6 @@ function Game() {
   this.player = new Player(0, "");
   this.npcs = new Object();
 
-  //persistent on separate java objects
-  this.bids = new Object();   //id:bid
-  this.customers = new Object(); //id:customer
-
   // declared/persistent on .js files
   this.scenes = new Object();
   this.dialogs = new Object();

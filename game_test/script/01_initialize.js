@@ -8,7 +8,6 @@ function setupGame(){
 
   //default menu visible on each scene/dialog
   G.menu=function(){return [["MN_QUIT",G.dialogs.introQuitGame],["MN_OPTIONS",G.dialogs.introPlayerOptions]];};
-  
 
   //first dialog
   G.player.tokenDialogId=G.dialogs.intro.id;
