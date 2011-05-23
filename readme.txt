@@ -1,1 +1,2 @@
-Storymoto game engine full sources. Visit http://gamamoto.com/storymoto-the-javascript-game-engine/
+Storymoto game engine full sources. Released by Gamamto under MIT license. Visit http://storymoto.gamamoto.com/
+The suggested tag for storymoto is #storymoto.
