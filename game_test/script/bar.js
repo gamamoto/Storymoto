@@ -1,4 +1,3 @@
-
 G.scenes.bar = {
   id:"bar",
   screen:"bar.html",
@@ -17,7 +16,6 @@ G.scenes.bar = {
   }
 
 };
-
 
 G.dialogs.bar = {
   id:"bar",
